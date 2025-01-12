@@ -10,7 +10,7 @@ export interface NavbarToggleProps extends Omit<ComponentProps<"button">, "class
 }
 
 export const NavbarToggle: FC<NavbarToggleProps> = ({ barIcon: BarIcon = FaBars, ...props }) => {
-  const { isOpen, setIsOpen } = useNavbarContext();
+  const { isOpen, setIsOpen } = useNavbarContext(); 
 
   const handleClick = () => {
     setIsOpen(!isOpen);

@@ -325,7 +325,7 @@ const Sidebar = memo(() => {
         setIsOpen={setIsShowingRequiredMods}
         modDependencies={missingModDependencies}
       />
-      <div className="fixed h-[90vh] z-[40]">
+      <div className="z-[40]">
         <div id="presetSection">
           <Tooltip
             placement="left"
@@ -421,228 +421,6 @@ const Sidebar = memo(() => {
           </span>
         </div>
 
-        <div className="absolute w-full bottom-0 z-10">
-          {missingModDependencies.length > 0 && (
-            <div className="text-center text-red-700 font-semibold mb-4">
-              <div
-                className="make-tooltip-w-full cursor-pointer"
-                onClick={() => onMissingDependenciesClicked()}
-              >
-                <Tooltip
-                  placement="left"
-                  content={missingModDependencies.map(([mod, reqs]) => (
-                    <div key={mod.path}>
-                      <span className="">{mod.humanName + ` ${localized.missing}`}</span>
-                      {
-                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                        reqs.map(([reqId, reqHumanName]) => (
-                          <div key={`${mod.path}_${reqHumanName}`} className="text-red-600">
-                            {reqHumanName}
-                          </div>
-                        ))
-                      }
-                    </div>
-                  ))}
-                >
-                  {localized.missingReqMods}
-                </Tooltip>
-              </div>
-            </div>
-          )}
-
-          {currentGame == "wh3" && Object.keys(timeCheckedOverwrittenDataPackedFiles).length > 0 && (
-            <div className="text-center text-red-700 font-semibold mb-4">
-              <div className="make-tooltip-w-full">
-                <Tooltip
-                  placement="left"
-                  content={
-                    <>
-                      <p className="cursor-default">{localized.outdatedOverwritingPacksTooltip}</p>
-                      {Object.entries(timeCheckedOverwrittenDataPackedFiles).map(
-                        ([packName, overwrittenFileNames]) => (
-                          <div key={packName}>
-                            <span className="">{packName + ` ${localized.overwrites}`}</span>
-                            {overwrittenFileNames.map((packedFileName) => (
-                              <div key={`${packName}_${packedFileName}`} className="text-red-600">
-                                {packedFileName}
-                              </div>
-                            ))}
-                          </div>
-                        )
-                      )}
-                    </>
-                  }
-                >
-                  <span className="cursor-default">{localized.outdatedOverwritingPacks}</span>
-                </Tooltip>
-              </div>
-            </div>
-          )}
-
-          {currentGame == "wh3" && Object.keys(outdatedPackFiles).length > 0 && (
-            <div className="text-center text-red-700 font-semibold mb-4">
-              <div className="make-tooltip-w-full">
-                <Tooltip
-                  placement="left"
-                  content={
-                    <>
-                      <p>{localized.packsWithOutdatedFiles}</p>
-                      {Object.entries(outdatedPackFiles).map(([packName, overwrittenFileNames]) => (
-                        <div key={packName}>
-                          <span className="">{`${packName}:`}</span>
-                          {overwrittenFileNames.map((packedFileName) => (
-                            <div key={`${packName}_${packedFileName}`} className="text-red-600">
-                              {`Patch ${packedFileName}`}
-                            </div>
-                          ))}
-                        </div>
-                      ))}
-                    </>
-                  }
-                >
-                  {localized.outdatedPacks}
-                </Tooltip>
-              </div>
-            </div>
-          )}
-
-          {outdatedMergedPacks.length > 0 && (
-            <div className="text-center text-red-700 font-semibold mb-4">
-              <div className="make-tooltip-w-full">
-                <Tooltip
-                  placement="left"
-                  content={
-                    <>
-                      <div>{localized.outdatedMergedModsTooltip}</div>
-                      {outdatedMergedPacks.map((mod) => (
-                        <div key={mod.path}>
-                          <span className="">{mod.name + ` is not up to date`}</span>
-                        </div>
-                      ))}
-                    </>
-                  }
-                >
-                  {localized.outdatedMergedMods}
-                </Tooltip>
-              </div>
-            </div>
-          )}
-          {enabledMods.length > 0 && (
-            <div className="text-center text-slate-100 mb-4">
-              <div className="make-tooltip-w-full">
-                <Tooltip
-                  placement="left"
-                  content={enabledMods.map((mod) => (
-                    <div key={mod.path}>{mod.name.replace(".pack", "")}</div>
-                  ))}
-                >
-                  <span className="cursor-default">
-                    {localized.enabledMods} {enabledMods.length}
-                  </span>
-                </Tooltip>
-              </div>
-            </div>
-          )}
-          <div className="flex flex-col items-center">
-            <button
-              id="playGame"
-              className={`bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded h-14 w-36 m-auto ${
-                (isWH3Running && "bg-opacity-50 hover:bg-opacity-50 text-opacity-50 hover:text-opacity-50") ||
-                ""
-              }`}
-              onClick={() => playGameClicked()}
-            >
-              {(isWH3Running && (
-                <div className="make-tooltip-w-full flex">
-                  <Tooltip
-                    placement="left"
-                    content={
-                      <div>
-                        <p>{localized.gameCurrentlyRunning}</p>
-                        {(isWaitingForRelaunch && <p>{localized.relaunchingGame}</p>) || (
-                          <p>{localized.queueUpRelaunchingGame}</p>
-                        )}
-                      </div>
-                    }
-                  >
-                    <div className="flex justify-center items-center gap-[0.4rem]">
-                      <img
-                        style={{ filter: "drop-shadow(0px 0px 7.5px black)" }}
-                        className="aspect-square w-10"
-                        src={require(`../assets/game_icons/${currentGame}.png`)}
-                      />
-                    </div>
-                  </Tooltip>
-                  {isWaitingForRelaunch && (
-                    <div className="dots-loader h-3 w-3 self-center mt-2 opacity-90"></div>
-                  )}
-                </div>
-              )) || (
-                <div className="flex justify-center items-center gap-[0.4rem]">
-                  <img
-                    style={{ filter: "drop-shadow(0px 0px 7.5px black)" }}
-                    className="aspect-square w-10"
-                    src={require(`../assets/game_icons/${currentGame}.png`)}
-                  />
-                  {((isWaitingForRelaunch || playDelayTimeoutId.current) && (
-                    <div className="dots-loader h-3 w-3 self-center mt-2 opacity-90"></div>
-                  )) || <span className="playButtonText uppercase">{localized.play}</span>}
-                </div>
-              )}
-            </button>
-
-            <div className="mt-2 w-36 relative">
-              <button
-                id="continueGame"
-                className={`bg-green-600 border-green-500 border-2 hover:bg-green-700 text-white font-medium text-sm px-4 rounded h-7 w-36 m-auto ${
-                  (isWH3Running &&
-                    "bg-opacity-50 hover:bg-opacity-50 text-opacity-50 hover:text-opacity-50 cursor-not-allowed") ||
-                  ""
-                }`}
-                onClick={() => onContinueGameClicked()}
-                disabled={saves.length < 1 || isWH3Running}
-              >
-                <div className="make-tooltip-w-full">
-                  <Tooltip
-                    placement="left"
-                    content={(saves[0] && `Load ${saves[0].name}`) || "No saves found!"}
-                  >
-                    <span className="ml-[-25%]">{localized.continue}</span>
-                  </Tooltip>
-                </div>
-              </button>
-              <button
-                id="showSaves"
-                type="submit"
-                className="absolute h-7 bottom-0 right-0 px-1 text-sm font-medium text-white bg-green-600 rounded-r-lg border-2 border-green-500 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                onClick={() => onShowSavedGamesClicked()}
-                disabled={saves.length < 1}
-              >
-                <div className="make-tooltip-w-full">
-                  <Tooltip placement="left" content={(saves[0] && `Show all saves`) || "No saves found!"}>
-                    <svg
-                      aria-hidden="true"
-                      className="h-6 w-6"
-                      fill="none"
-                      stroke="currentColor"
-                      overflow="visible"
-                      viewBox="0 0 24 24"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 5l7 7-7 7"
-                      ></path>
-                    </svg>
-                  </Tooltip>
-                </div>
-              </button>
-            </div>
-          </div>
-        </div>
-
         <div className="mt-6">
           <OptionsDrawer />
         </div>
@@ -686,6 +464,228 @@ const Sidebar = memo(() => {
               type="button"
             >
               {localized.faqAbbreviated}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="bottom-0 z-10 align-bottom">
+        {missingModDependencies.length > 0 && (
+          <div className="text-center text-red-700 font-semibold mb-4">
+            <div
+              className="make-tooltip-w-full cursor-pointer"
+              onClick={() => onMissingDependenciesClicked()}
+            >
+              <Tooltip
+                placement="left"
+                content={missingModDependencies.map(([mod, reqs]) => (
+                  <div key={mod.path}>
+                    <span className="">{mod.humanName + ` ${localized.missing}`}</span>
+                    {
+                      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                      reqs.map(([reqId, reqHumanName]) => (
+                        <div key={`${mod.path}_${reqHumanName}`} className="text-red-600">
+                          {reqHumanName}
+                        </div>
+                      ))
+                    }
+                  </div>
+                ))}
+              >
+                {localized.missingReqMods}
+              </Tooltip>
+            </div>
+          </div>
+        )}
+
+        {currentGame == "wh3" && Object.keys(timeCheckedOverwrittenDataPackedFiles).length > 0 && (
+          <div className="text-center text-red-700 font-semibold mb-4">
+            <div className="make-tooltip-w-full">
+              <Tooltip
+                placement="left"
+                content={
+                  <>
+                    <p className="cursor-default">{localized.outdatedOverwritingPacksTooltip}</p>
+                    {Object.entries(timeCheckedOverwrittenDataPackedFiles).map(
+                      ([packName, overwrittenFileNames]) => (
+                        <div key={packName}>
+                          <span className="">{packName + ` ${localized.overwrites}`}</span>
+                          {overwrittenFileNames.map((packedFileName) => (
+                            <div key={`${packName}_${packedFileName}`} className="text-red-600">
+                              {packedFileName}
+                            </div>
+                          ))}
+                        </div>
+                      )
+                    )}
+                  </>
+                }
+              >
+                <span className="cursor-default">{localized.outdatedOverwritingPacks}</span>
+              </Tooltip>
+            </div>
+          </div>
+        )}
+
+        {currentGame == "wh3" && Object.keys(outdatedPackFiles).length > 0 && (
+          <div className="text-center text-red-700 font-semibold mb-4">
+            <div className="make-tooltip-w-full">
+              <Tooltip
+                placement="left"
+                content={
+                  <>
+                    <p>{localized.packsWithOutdatedFiles}</p>
+                    {Object.entries(outdatedPackFiles).map(([packName, overwrittenFileNames]) => (
+                      <div key={packName}>
+                        <span className="">{`${packName}:`}</span>
+                        {overwrittenFileNames.map((packedFileName) => (
+                          <div key={`${packName}_${packedFileName}`} className="text-red-600">
+                            {`Patch ${packedFileName}`}
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </>
+                }
+              >
+                {localized.outdatedPacks}
+              </Tooltip>
+            </div>
+          </div>
+        )}
+
+        {outdatedMergedPacks.length > 0 && (
+          <div className="text-center text-red-700 font-semibold mb-4">
+            <div className="make-tooltip-w-full">
+              <Tooltip
+                placement="left"
+                content={
+                  <>
+                    <div>{localized.outdatedMergedModsTooltip}</div>
+                    {outdatedMergedPacks.map((mod) => (
+                      <div key={mod.path}>
+                        <span className="">{mod.name + ` is not up to date`}</span>
+                      </div>
+                    ))}
+                  </>
+                }
+              >
+                {localized.outdatedMergedMods}
+              </Tooltip>
+            </div>
+          </div>
+        )}
+        {enabledMods.length > 0 && (
+          <div className="text-center text-slate-100 mb-4">
+            <div className="make-tooltip-w-full">
+              <Tooltip
+                placement="left"
+                content={enabledMods.map((mod) => (
+                  <div key={mod.path}>{mod.name.replace(".pack", "")}</div>
+                ))}
+              >
+                <span className="cursor-default">
+                  {localized.enabledMods} {enabledMods.length}
+                </span>
+              </Tooltip>
+            </div>
+          </div>
+        )}
+        <div className="flex flex-col items-center">
+          <button
+            id="playGame"
+            className={`bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded h-14 w-36 m-auto ${
+              (isWH3Running && "bg-opacity-50 hover:bg-opacity-50 text-opacity-50 hover:text-opacity-50") ||
+              ""
+            }`}
+            onClick={() => playGameClicked()}
+          >
+            {(isWH3Running && (
+              <div className="make-tooltip-w-full flex">
+                <Tooltip
+                  placement="left"
+                  content={
+                    <div>
+                      <p>{localized.gameCurrentlyRunning}</p>
+                      {(isWaitingForRelaunch && <p>{localized.relaunchingGame}</p>) || (
+                        <p>{localized.queueUpRelaunchingGame}</p>
+                      )}
+                    </div>
+                  }
+                >
+                  <div className="flex justify-center items-center gap-[0.4rem]">
+                    <img
+                      style={{ filter: "drop-shadow(0px 0px 7.5px black)" }}
+                      className="aspect-square w-10"
+                      src={require(`../assets/game_icons/${currentGame}.png`)}
+                    />
+                  </div>
+                </Tooltip>
+                {isWaitingForRelaunch && (
+                  <div className="dots-loader h-3 w-3 self-center mt-2 opacity-90"></div>
+                )}
+              </div>
+            )) || (
+              <div className="flex justify-center items-center gap-[0.4rem]">
+                <img
+                  style={{ filter: "drop-shadow(0px 0px 7.5px black)" }}
+                  className="aspect-square w-10"
+                  src={require(`../assets/game_icons/${currentGame}.png`)}
+                />
+                {((isWaitingForRelaunch || playDelayTimeoutId.current) && (
+                  <div className="dots-loader h-3 w-3 self-center mt-2 opacity-90"></div>
+                )) || <span className="playButtonText uppercase">{localized.play}</span>}
+              </div>
+            )}
+          </button>
+
+          <div className="mt-2 w-36 relative">
+            <button
+              id="continueGame"
+              className={`bg-green-600 border-green-500 border-2 hover:bg-green-700 text-white font-medium text-sm px-4 rounded h-7 w-36 m-auto ${
+                (isWH3Running &&
+                  "bg-opacity-50 hover:bg-opacity-50 text-opacity-50 hover:text-opacity-50 cursor-not-allowed") ||
+                ""
+              }`}
+              onClick={() => onContinueGameClicked()}
+              disabled={saves.length < 1 || isWH3Running}
+            >
+              <div className="make-tooltip-w-full">
+                <Tooltip
+                  placement="left"
+                  content={(saves[0] && `Load ${saves[0].name}`) || "No saves found!"}
+                >
+                  <span className="ml-[-25%]">{localized.continue}</span>
+                </Tooltip>
+              </div>
+            </button>
+            <button
+              id="showSaves"
+              type="submit"
+              className="absolute h-7 bottom-0 right-0 px-1 text-sm font-medium text-white bg-green-600 rounded-r-lg border-2 border-green-500 hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+              onClick={() => onShowSavedGamesClicked()}
+              disabled={saves.length < 1}
+            >
+              <div className="make-tooltip-w-full">
+                <Tooltip placement="left" content={(saves[0] && `Show all saves`) || "No saves found!"}>
+                  <svg
+                    aria-hidden="true"
+                    className="h-6 w-6"
+                    fill="none"
+                    stroke="currentColor"
+                    overflow="visible"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9 5l7 7-7 7"
+                    ></path>
+                  </svg>
+                </Tooltip>
+              </div>
             </button>
           </div>
         </div>

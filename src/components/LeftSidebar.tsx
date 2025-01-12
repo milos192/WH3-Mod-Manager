@@ -47,10 +47,10 @@ const LeftSidebar = memo(() => {
   });
 
   return (
-    <>
+    <div className="w-[50px]">
       <Tabs
         id="left-sidebar"
-        className="fixed top-8 z-[200] left-0 outline-transparent parent-unhide-child select-none"
+        className="fixed z-[200] left-0 outline-transparent parent-unhide-child select-none"
         onSelect={(index) => onTabSelected(index)}
         selectedIndex={tabIndexToTabType.findIndex((tabType) => tabType == currentTab)}
       >
@@ -81,7 +81,7 @@ const LeftSidebar = memo(() => {
         <TabPanel></TabPanel>
         <TabPanel></TabPanel>
       </Tabs>
-    </>
+    </div>
   );
 });
 export default LeftSidebar;

@@ -979,7 +979,8 @@ export const registerIpcMainListeners = (
         }
       });
 
-      if (!appData.saveSetupDone) {
+      // SH: Change here
+      // if (!appData.saveSetupDone) {
         appData.saveSetupDone = true;
         getSaveFiles()
           .then(async (saves) => {
@@ -987,7 +988,7 @@ export const registerIpcMainListeners = (
             mainWindow?.webContents.send("savesPopulated", saves);
           })
           .catch();
-      }
+      // }
 
       const dataFolder = appData.gamesToGameFolderPaths[appData.currentGame].dataFolder;
       if (dataFolder) {
