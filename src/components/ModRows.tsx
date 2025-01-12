@@ -860,10 +860,9 @@ const ModRows = memo((props: ModRowsProps) => {
                     <div ref={registerChild}>
                       <List
                         ref={listRef}
-                        autoHeight
                         height={height || 500}
                         width={width}
-                        className="overflow-y-scroll scrollbar scrollbar-track-gray-700 scrollbar-thumb-blue-700"
+                        className="overflow-y-scroll scrollbar scrollbar-track-gray-700 scrollbar-thumb-blue-700 h-[calc(100vh-79px)]"
                         scrollTop={scrollTop}
                         isScrolling={isScrolling}
                         onScroll={onChildScroll}
